@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @EnableScheduling
 public class ClimalertApplication implements CommandLineRunner {
 
-    @Autowired
-    private WeatherService weatherService;
+
 
     public static void main(String[] args) {
         SpringApplication.run(ClimalertApplication.class, args);
