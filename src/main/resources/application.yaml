@@ -2,13 +2,11 @@ apiKey: ${WEATHER_API_KEY}
 ciudad: Buenos Aires
 apiUrl: https://api.weatherapi.com/v1/current.json
 
-mails:
-  remitente: ${SENDER_MAIL}
-  destinatarios:
-    - leojviegas@gmail.com
-    - admin@clima.com
-    - emergencias@clima.com
-    - meteorologia@clima.com
+mailRemitente: ${SENDER_MAIL}
+mailDestinatario1: leojviegas@gmail.com
+mailDestinatario2: emergencias@clima.com
+mailDestinatario3: meteorologia@clima.com
+mailDestinatario4: admin@clima.com
 
 spring:
   mail:

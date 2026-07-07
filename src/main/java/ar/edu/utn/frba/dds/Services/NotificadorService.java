@@ -10,12 +10,19 @@ import java.util.List;
 @Service
 public class NotificadorService {
 
-    private final JavaMailSender mailSender;
+    @Value("${mailDestinatario1}")
+    private String destinatario1;
+    @Value("${mailDestinatario2}")
+    private String destinatario2;
+    @Value("${mailDestinatario3}")
+    private String destinatario3;
 
-    @Value("${mails.destinatarios}")
-    private List<String> destinatarios;
-    
-    @Value("${mails.remitente}")
+    private final JavaMailSender mailSender;
+    private final List<String> destinatarios = List.of(destinatario1, destinatario2, destinatario3);
+
+
+
+    @Value("${mailRemitente}")
     private String remitente;
 
     public NotificadorService(JavaMailSender mailSender) {

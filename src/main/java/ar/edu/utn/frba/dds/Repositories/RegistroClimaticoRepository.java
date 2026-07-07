@@ -21,7 +21,7 @@ public class RegistroClimaticoRepository {
     if (this.historialRegistroClimatico.isEmpty()) {
       return null;
     }
-    return this.historialRegistroClimatico.get(this.historialRegistroClimatico.size()-1);
+    return this.historialRegistroClimatico.getLast();
   }
 
 }
