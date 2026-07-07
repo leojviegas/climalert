@@ -3,7 +3,7 @@ ciudad: Buenos Aires
 apiUrl: https://api.weatherapi.com/v1/current.json
 
 mailRemitente: ${SENDER_MAIL}
-mailDestinatario1: leojviegas@gmail.com
+mailDestinatario1: admin@clima.com
 mailDestinatario2: emergencias@clima.com
 mailDestinatario3: meteorologia@clima.com
 mailDestinatario4: admin@clima.com

@@ -15,9 +15,9 @@ public class RegistroClimaticoService {
 
   private final WeatherApiClient weatherApiClient;
   private final RegistroClimaticoRepository registroClimaticoRepository;
-  
+
   private final NotificadorService notificadorService;
-  
+
   @Value("${ciudad}")
   private String ciudad;
 
@@ -35,14 +35,14 @@ public class RegistroClimaticoService {
       RegistroClimatico registro = new RegistroClimatico();
       registro.setFechaHora(LocalDateTime.now());
 
-      if(respuestaApi.getLocation() != null) {
+      if (respuestaApi.getLocation() != null) {
         registro.setCiudad(respuestaApi.getLocation().getName());
         registro.setPais(respuestaApi.getLocation().getCountry());
       }
-      if(respuestaApi.getCurrent() != null) {
+      if (respuestaApi.getCurrent() != null) {
         registro.setTemperatura(respuestaApi.getCurrent().getTemp_c());
         registro.setHumedad(respuestaApi.getCurrent().getHumidity());
-        if(respuestaApi.getCurrent().getCondition() != null) {
+        if (respuestaApi.getCurrent().getCondition() != null) {
           registro.setCondicion(respuestaApi.getCurrent().getCondition().getText());
         }
       }
@@ -54,18 +54,19 @@ public class RegistroClimaticoService {
   @Scheduled(fixedRate = 6000)
   public void AnalizadorDeAlertas() {
     RegistroClimatico registroReciente = registroClimaticoRepository.getRegistroClimaticoMasReciente();
-    
+
     if (registroReciente == null) {
       return;
     }
-    
+
     if (!registroReciente.isAlertaGenerada()) {
-      if (registroReciente.getTemperatura() > 0 || registroReciente.getHumedad() > 60) {
+      if (registroReciente.getTemperatura() > 35 || registroReciente.getHumedad() > 60) {
         String mensaje = "ALERTA CLIMÁTICA CRÍTICA:\n" +
-                         "Se han detectado condiciones peligrosas en " + registroReciente.getCiudad() + ".\n" +
-                         "Temperatura actual: " + registroReciente.getTemperatura() + "°C\n" +
-                         "Humedad actual: " + registroReciente.getHumedad() + "%\n" +
-                         "Condición: " + registroReciente.getCondicion();
+            "Se han detectado condiciones peligrosas en " + registroReciente.getCiudad() + ".\n" +
+            "Temperatura actual: " + registroReciente.getTemperatura() + "°C\n" +
+            "Humedad actual: " + registroReciente.getHumedad() + "%\n" +
+            "Condición: " + registroReciente.getCondicion() + ".\n" +
+            "Fecha y hora de la alerta: " + registroReciente.getFechaHora();
 
         System.out.println("ALERTA DETECTADA: Enviando mails a contactos...");
         notificadorService.notificarAlerta(mensaje);
