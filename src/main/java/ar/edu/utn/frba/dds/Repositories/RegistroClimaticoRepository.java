@@ -7,18 +7,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class RegistroClimaticoRepository {
 
-  private ArrayList<RegistroClimatico> historialRegistroClimatico;
-
+  private final ArrayList<RegistroClimatico> historialRegistroClimatico;
 
   public RegistroClimaticoRepository() {
     this.historialRegistroClimatico = new ArrayList<>();
   }
 
-  public crearRegistroClimatico(RegistroClimatico registro) {
-
+  public void crearRegistroClimatico(RegistroClimatico registro) {
+    this.historialRegistroClimatico.add(registro);
   }
 
-  public getRegistroClimaticoMasReciente() {
+  public RegistroClimatico getRegistroClimaticoMasReciente() {
+    if (this.historialRegistroClimatico.isEmpty()) {
+      return null;
+    }
     return this.historialRegistroClimatico.get(this.historialRegistroClimatico.size()-1);
   }
 

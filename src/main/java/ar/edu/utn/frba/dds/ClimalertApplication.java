@@ -11,16 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 @EnableScheduling
 public class ClimalertApplication implements CommandLineRunner {
 
+  @Autowired
+  private ar.edu.utn.frba.dds.Services.RegistroClimaticoService registroClimaticoService;
 
+  public static void main(String[] args) {
+    SpringApplication.run(ClimalertApplication.class, args);
+  }
 
-    public static void main(String[] args) {
-        SpringApplication.run(ClimalertApplication.class, args);
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-        System.out.println("Iniciando aplicación y consultando el clima...");
-        weatherService.fetchWeatherData();
-    }
+  @Override
+  public void run(String... args) throws Exception {
+    System.out.println("Aplicación iniciada. El scheduler se encargará de consultar el clima.");
+  }
 }
 

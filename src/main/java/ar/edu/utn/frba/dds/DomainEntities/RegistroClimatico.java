@@ -1,15 +1,18 @@
 package ar.edu.utn.frba.dds.DomainEntities;
 
-import java.time.LocalDate;
-import java.util.Date;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
+@Data
+@NoArgsConstructor
 public class RegistroClimatico {
 
-  private String ubicacion;
-  private String fecha;
-  private String temperatura;
-  private String humedad;
-  private String viento;
+  private String ciudad;
+  private String pais;
+  private Double temperatura;
+  private Integer humedad;
   private String condicion;
-  LocalDate fechaDeConsulta;
+  private LocalDateTime fechaHora;
+
 }

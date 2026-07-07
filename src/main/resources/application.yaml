@@ -1,3 +1,6 @@
 apiKey: f6e87dc1ae8246a2a4935405260507
 ciudad: Buenos Aires
 apiUrl: https://api.weatherapi.com/v1/current.json
+mail1: admin@clima.com
+mail2: emergencias@clima.com
+mail3: meteorologia@clima.com
