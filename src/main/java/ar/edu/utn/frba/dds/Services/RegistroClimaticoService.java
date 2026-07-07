@@ -51,8 +51,8 @@ public class RegistroClimaticoService {
     }
   }
 
-  @Scheduled(fixedRate = 6000)
-  public void AnalizadorDeAlertas() {
+  @Scheduled(fixedRate = 60000)
+  public void analizadorDeAlertas() {
     RegistroClimatico registroReciente = registroClimaticoRepository.getRegistroClimaticoMasReciente();
 
     if (registroReciente == null) {
