@@ -51,7 +51,7 @@ public class RegistroClimaticoService {
     }
   }
 
-  @Scheduled(fixedRate = 60000)
+  @Scheduled(fixedRate = 6000)
   public void AnalizadorDeAlertas() {
     RegistroClimatico registroReciente = registroClimaticoRepository.getRegistroClimaticoMasReciente();
     
@@ -60,7 +60,7 @@ public class RegistroClimaticoService {
     }
     
     if (!registroReciente.isAlertaGenerada()) {
-      if (registroReciente.getTemperatura() > 35 && registroReciente.getHumedad() > 60) {
+      if (registroReciente.getTemperatura() > 0 || registroReciente.getHumedad() > 60) {
         String mensaje = "ALERTA CLIMÁTICA CRÍTICA:\n" +
                          "Se han detectado condiciones peligrosas en " + registroReciente.getCiudad() + ".\n" +
                          "Temperatura actual: " + registroReciente.getTemperatura() + "°C\n" +

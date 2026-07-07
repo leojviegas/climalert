@@ -18,9 +18,6 @@ public class NotificadorService {
     private String destinatario3;
 
     private final JavaMailSender mailSender;
-    private final List<String> destinatarios = List.of(destinatario1, destinatario2, destinatario3);
-
-
 
     @Value("${mailRemitente}")
     private String remitente;
@@ -30,19 +27,24 @@ public class NotificadorService {
     }
 
     public void notificarAlerta(String mensaje) {
-        if (destinatarios == null || destinatarios.isEmpty()) {
+        // Armamos la lista acá para asegurarnos de que Spring ya haya inyectado los valores.
+        List<String> destinatarios = List.of(destinatario1, destinatario2, destinatario3);
+
+        if (destinatarios.isEmpty()) {
             System.out.println("No hay destinatarios configurados para enviar la alerta.");
             return;
         }
 
         try {
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom(remitente);
-            mailMessage.setTo(destinatarios.toArray(new String[0]));
-            mailMessage.setSubject("ALERTA METEOROLÓGICA - Climalert");
-            mailMessage.setText(mensaje);
+            for (String destinatario : destinatarios) {
+                SimpleMailMessage mailMessage = new SimpleMailMessage();
+                mailMessage.setFrom(remitente);
+                mailMessage.setTo(destinatario);
+                mailMessage.setSubject("ALERTA METEOROLÓGICA - Climalert");
+                mailMessage.setText(mensaje);
 
-            mailSender.send(mailMessage);
+                mailSender.send(mailMessage);
+            }
             System.out.println("Alerta enviada correctamente a los destinatarios mediante Twilio SendGrid.");
         } catch (Exception e) {
             System.err.println("Error al intentar enviar los correos. Verificá la configuración de Twilio SendGrid: " + e.getMessage());
