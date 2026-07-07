@@ -16,12 +16,15 @@ public class RegistroClimaticoService {
   private final WeatherApiClient weatherApiClient;
   private final RegistroClimaticoRepository registroClimaticoRepository;
   
+  private final NotificadorService notificadorService;
+  
   @Value("${ciudad}")
   private String ciudad;
 
-  public RegistroClimaticoService(WeatherApiClient weatherApiClient, RegistroClimaticoRepository registroClimaticoRepository) {
+  public RegistroClimaticoService(WeatherApiClient weatherApiClient, RegistroClimaticoRepository registroClimaticoRepository, NotificadorService notificadorService) {
     this.weatherApiClient = weatherApiClient;
     this.registroClimaticoRepository = registroClimaticoRepository;
+    this.notificadorService = notificadorService;
   }
 
   @Scheduled(fixedRate = 300000)
@@ -45,6 +48,29 @@ public class RegistroClimaticoService {
       }
 
       registroClimaticoRepository.crearRegistroClimatico(registro);
+    }
+  }
+
+  @Scheduled(fixedRate = 60000)
+  public void AnalizadorDeAlertas() {
+    RegistroClimatico registroReciente = registroClimaticoRepository.getRegistroClimaticoMasReciente();
+    
+    if (registroReciente == null) {
+      return;
+    }
+    
+    if (!registroReciente.isAlertaGenerada()) {
+      if (registroReciente.getTemperatura() > 35 && registroReciente.getHumedad() > 60) {
+        String mensaje = "ALERTA CLIMÁTICA CRÍTICA:\n" +
+                         "Se han detectado condiciones peligrosas en " + registroReciente.getCiudad() + ".\n" +
+                         "Temperatura actual: " + registroReciente.getTemperatura() + "°C\n" +
+                         "Humedad actual: " + registroReciente.getHumedad() + "%\n" +
+                         "Condición: " + registroReciente.getCondicion();
+
+        System.out.println("ALERTA DETECTADA: Enviando mails a contactos...");
+        notificadorService.notificarAlerta(mensaje);
+        registroReciente.setAlertaGenerada(true);
+      }
     }
   }
 }

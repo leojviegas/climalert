@@ -1,6 +1,24 @@
-apiKey: f6e87dc1ae8246a2a4935405260507
+apiKey: ${WEATHER_API_KEY}
 ciudad: Buenos Aires
 apiUrl: https://api.weatherapi.com/v1/current.json
-mail1: admin@clima.com
-mail2: emergencias@clima.com
-mail3: meteorologia@clima.com
+
+mails:
+  remitente: ${SENDER_MAIL}
+  destinatarios:
+    - leojviegas@gmail.com
+    - admin@clima.com
+    - emergencias@clima.com
+    - meteorologia@clima.com
+
+spring:
+  mail:
+    host: smtp.sendgrid.net
+    port: 587
+    username: apikey
+    password: ${SENDGRID_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

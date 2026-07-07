@@ -14,5 +14,6 @@ public class RegistroClimatico {
   private Integer humedad;
   private String condicion;
   private LocalDateTime fechaHora;
+  private boolean alertaGenerada = false;
 
 }
